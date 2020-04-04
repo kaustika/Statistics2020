@@ -1,7 +1,8 @@
 import numpy as np
 import scipy.stats as stats
 import math
-from prettytable import PrettyTable
+from tabulate import tabulate
+
 
 distributions = \
 {'Normal': lambda num: np.random.normal(0, 1, num),
@@ -11,22 +12,24 @@ distributions = \
  'Uniform': lambda num: np.random.uniform(-math.sqrt(3), math.sqrt(3), num)
 }
 
+
 def get_distribution(distr_name, num):
     return distributions.get(distr_name)(num)
 
+
 def get_quartil(sample_sorted, p):
     return np.percentile(sample_sorted, p*100)
+
 
 len_list = [10, 100, 1000]
 distrs = ['Normal', 'Cauchy', 'Laplace', 'Poisson', 'Uniform']
 
 
-
 for distr_name in distrs:
     print(f"Распределение {distr_name}")
-    characteristicsTable = PrettyTable()
-    characteristicsTable.float_format = "2.2"
-    characteristicsTable.field_names = ["Characteristic", "Mean", "Median", "z_R", "z_Q", "z_tr"]
+
+    field_names = ["Characteristic", "Mean", "Median", "z_R", "z_Q", "z_tr"]
+    rows = []
     for d_num in len_list:
         mean = []
         med = []
@@ -41,17 +44,17 @@ for distr_name in distrs:
             z_R.append((sample_d_sorted[0] + sample_d_sorted[-1]) / 2)
             z_Q.append((get_quartil(sample_d, 0.25) + get_quartil(sample_d, 0.75)) / 2)
             z_tr.append(stats.trim_mean(sample_d, 0.25))
-        characteristicsTable.add_row([distr_name + " E(z) " + str(d_num),
+        rows.append([distr_name + " E(z) " + str(d_num),
                           np.around(np.mean(mean), decimals=6),
                           np.around(np.mean(med), decimals=6),
                           np.around(np.mean(z_R), decimals=6),
                           np.around(np.mean(z_Q), decimals=6),
                           np.around(np.mean(z_tr), decimals=6)])
-        characteristicsTable.add_row([distr_name + " D(z) " + str(d_num),
+        rows.append([distr_name + " D(z) " + str(d_num),
                           np.around(np.std(mean) * np.std(mean), decimals=6),
                           np.around(np.std(med) * np.std(med), decimals=6),
                           np.around(np.std(z_R) * np.std(z_R), decimals=6),
                           np.around(np.std(z_Q) * np.std(z_Q), decimals=6),
                           np.around(np.std(z_tr) * np.std(z_tr), decimals=6)])
-
-    print(characteristicsTable)
+    table = rows
+    print(tabulate(table, field_names, tablefmt="latex"))
