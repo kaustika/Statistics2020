@@ -54,7 +54,25 @@ def plotRegression(x, y, type, estimates):
     plt.legend()
     plt.title(type)
     plt.savefig(type + '.png', format='png')
-    plt.show()
+    plt.close()
+
+
+def criteriaComparison(x, estimates):
+    a_ls, b_ls, a_lm, b_lm = estimates
+    model = lambda x: coefs[0] + coefs[1] * x
+    # least squares criteria
+    lsc = lambda x: a_ls + b_ls * x
+    # least modulo criteria
+    lmc = lambda x: a_lm + b_lm * x
+    sum_ls, sum_lm = 0, 0
+    for point in x:
+        y_ls = lsc(point)
+        y_lm = lmc(point)
+        y_model = model(point)
+        sum_ls += pow(y_model - y_ls, 2)
+        sum_lm += pow(y_model - y_lm, 2)
+    print("Least squares approximate better! - ", sum_ls, " < ", sum_lm) if sum_ls < sum_lm\
+        else print("Least modulo approximates better! - ", sum_lm, " < ", sum_ls)
 
 
 if __name__ == "__main__":
@@ -64,5 +82,6 @@ if __name__ == "__main__":
         estimates = coefficientEstimates(x, y)
         printEstimates(type, estimates)
         plotRegression(x, y, type, estimates)
+        criteriaComparison(x, estimates)
         y[0] += perturbations[0]
         y[-1] += perturbations[1]
