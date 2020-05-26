@@ -25,22 +25,9 @@ def get_rvs(num, cov, mixed):
 
 def quadrant_coef(x, y):
     """ Calculates quadrant correlation coefficient of x and y. """
-    if x.size != y.size:
-        raise ValueError("x and y must be the same size")
-    n = len(x)
     med_x = np.median(x)
     med_y = np.median(y)
-    n1, n2, n3, n4 = (0, 0, 0, 0)
-    for i in range(n):
-        if x[i] >= med_x and y[i] >= med_y:
-            n1 += 1
-        if x[i] < med_x and y[i] > med_y:
-            n2 += 1
-        if x[i] <= med_x and y[i] <= med_y:
-            n3 += 1
-        if x[i] > med_x and y[i] < med_y:
-            n4 += 1
-    return ((n1 + n3) - (n2 + n4)) / n
+    return np.mean(np.sign(x - med_x) * np.sign(y - med_y))
 
 
 def accumulate_coefs(num, cov, mixed):

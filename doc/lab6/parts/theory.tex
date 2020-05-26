@@ -1,0 +1,188 @@
+\documentclass[../body.tex]{subfiles}
+\begin{document}
+	\subsection{Простая линейная регрессия}
+	\subsubsection{Модель простой линейной регрессии}
+	Регрессионную модель (гипотезу, которая должна быть подвергнута статистической проверке) описания данных называют \textit{простой линейной регрессией}, если
+	
+	\begin{equation}
+		y_{i} = \beta_{0} + \beta_{1}x_{i} + \varepsilon_{i},  i = \overline{1, n},
+		\label{y_i}
+	\end{equation}
+	где \begin{itemize}
+			\item$x_{1},...,x_{n}$ — заданные числа (значения фактора);
+			\item $y_{1},...,y_{n}$ — наблюдаемые значения отклика;
+			\item $\varepsilon_{1},...,\varepsilon_{n}$ — независимые, нормально распределённые $\sim N(0,\sigma)$: с нулевым математическим ожиданием и одинаковой (неизвестной) дисперсией случайные величины (ненаблюдаемые);
+			\item $\beta_{0}$, $\beta_{1}$ — неизвестные параметры, подлежащие оцениванию.
+		\end{itemize}
+	В модели (\ref{y_i}) отклик $y$ зависит зависит от одного фактора $x$, и весь разброс экспериментальных точек объясняется только погрешностями наблюдений (результатов измерений) отклика $y$. Погрешности результатов измерений $x$ в этой модели полагают существенно меньшими погрешностей результатов измерений $y$, так что ими можно пренебречь \cite[c.~507]{max}.
+	
+	
+	
+	\subsubsection{Метод наименьших квадратов}
+	При оценивании параметров регрессионной модели $(\beta_{0}, \beta_{1})$ используют различные методы. Один из наиболее распрстранённых подходов заключается в следующем: вводится мера (критерий) рассогласования отклика и регрессионной функции, и оценки параметров регрессии определяются так, чтобы сделать это рассогласование наименьшим. Достаточно простые расчётные формулы для оценок получают при выборе критерия в виде суммы квадратов отклонений значений отклика от значений регрессионной функции (сумма квадратов остатков):
+	
+	\begin{equation}
+		Q(\beta_{0}, \beta_{1}) = \sum_{i=1}^{n}{\varepsilon_{i}^{2}} = 
+		\sum_{i=1}^{n}{(y_{i} - \beta_{0} - \beta_{1}x_{i})^{2}}\rightarrow \min_{\beta_{0}, \beta_{1}}.
+		\label{Q_beta}
+	\end{equation}
+	Задача минимизации квадратичного критерия (\ref{Q_beta}) носит название задачи \textit{метода наименьших квадратов} (МНК), а оценки $\widehat{\beta_{0}}, \widehat{\beta_{1}}$ параметров $\beta_{0}, \beta_{1}$, реализующие минимум критерия (\ref{Q_beta}), называют \textit{МНК-оценками} \cite[c.~508]{max}. 
+	
+	\subsubsection{Расчётные формулы для МНК-оценок}
+	МНК-оценки параметров $\widehat{\beta_{0}}, \widehat{\beta_{1}}$ находятся из условия обращения функции $Q(\beta_{0}, \beta_{1})$ в минимум. 
+	\newline
+	Для нахождения МНК-оценок $\widehat{\beta_{0}}, \widehat{\beta_{1}}$ выпишем необходимые условия экстремума
+	
+	\begin{equation}
+		\begin{cases}
+			& \frac{\partial Q}{\partial \beta_{0}}  = 
+			-2\sum_{i=1}^{n}{(y_{i} - \beta_{0} - \beta_{1}x_{i})} = 0\\ 
+			
+			& \frac{\partial Q}{\partial \beta_{1}}  = 
+			-2\sum_{i=1}^{n}{(y_{i} - \beta_{0} - \beta_{1}x_{i})x_{i}} = 0 
+		\end{cases}
+		\label{sys_min}
+	\end{equation}
+	Далее для упрощения записи сумм будем опускать индекс суммирования. Из системы (\ref{sys_min}) получим:
+	
+	\begin{equation}
+		\begin{cases}
+			& n\widehat{\beta_{0}} + \widehat{\beta_{1}}\sum{x_{i}} = \sum{y_{i}}\\ 
+			& \widehat{\beta_{0}}\sum{x_{i}} + \widehat{\beta_{1}}\sum{x_{i}^{2}} = \sum{x_{i}y_{i}}
+		\end{cases}
+	\end{equation}
+	Разделим оба уравнения на n:
+	\begin{equation}
+		\begin{cases}
+			& \widehat{\beta_{0}} + \widehat{\beta_{1}}(\frac{1}{n}\sum_{}{}{x_{i}}) = 
+			\frac{1}{n}\sum_{}{}{y_{i}}\\ 
+			
+			& \widehat{\beta_{0}}(\frac{1}{n}\sum_{}{}{x_{i}}) + \widehat{\beta_{1}}(\frac{1}{n}\sum_{}{}{x_{i}^{2}}) = \frac{1}{n}\sum_{}{}{x_{i}y_{i}}
+		\end{cases}
+		\label{sys_3}
+	\end{equation}
+	и, используя известные статистические обозначения для выборочных первых и вторых начальных моментов
+	
+	\begin{equation}
+		\overline{x} = \frac{1}{n}\sum_{}{}{x_{i}}, \overline{y} = \frac{1}{n}\sum_{}{}{y_{i}}, \overline{x^{2}} = \frac{1}{n}\sum_{}{}{x_{i}^{2}}, \overline{xy} = \frac{1}{n}\sum_{}{}{x_{i}y_{i}}, 
+	\end{equation}
+	получим
+	\begin{equation}
+		\begin{cases}
+			& \widehat{\beta_{0}} + \widehat{\beta_{1}}\overline{x} = 
+			\overline{y},\\ 
+			
+			& \widehat{\beta_{0}}\bar{x} + \widehat{\beta_{1}}\overline{x^{2}} = \overline{xy},
+		\end{cases}
+		\label{sys_fin}
+	\end{equation}
+	откуда МНК-оценку $\widehat{\beta_1}$ наклона прямой регрессии находим по формуле Крамера
+	
+	\begin{equation}
+		\widehat{\beta_{1}} = \frac{\overline{xy} - \overline{x} \cdot \overline{y}}{\overline{x^{2}} - (\overline{x})^{2}}
+		\label{beta_1_new}
+	\end{equation}
+	a МНК-оценку $\widehat{\beta_0}$  определяем непосредственно из первого уравнения системы (\ref{sys_fin}):
+	
+	\begin{equation}
+		\widehat{\beta_{0}} = \overline{y} - \overline{x}\widehat{\beta_{1}}
+		\label{beta_0_new}
+	\end{equation}
+	Заметим, что определитель системы (\ref{sys_fin}):
+	
+	\begin{equation}
+		\overline{x^{2}} - (\overline{x})^{2} = \frac{1}{n}\sum_{}{}{(x_{i} - \overline{x})^{2}} = s_{x}^{2} > 0, 
+	\end{equation}
+	если среди значений $x_{1},...,x_{n}$ есть различные, что и будем предполагать.
+	\newline
+	Доказательство минимальности функции $Q(\beta_{0}, \beta_{1})$ в стационарной точке проведём с помощью известного достаточного признака экстремума функции двух переменных. Имеем:
+	
+	\begin{equation}
+		\frac{\partial ^{2} Q}{\partial \beta_{0}^{2}} = 2n, 
+		\frac{\partial ^{2} Q}{\partial \beta_{1}^{2}} = 2\sum_{}{}{x_{i}^{2}} = 2n\overline{x^{2}}, 
+		\frac{\partial ^{2} Q}{\partial \beta_{1} \partial \beta_{0}} = 2\sum_{}{}{x_{i}} = 2n\overline{x}
+		\label{frac_eq}
+	\end{equation}
+	
+	\begin{multline}
+		\bigtriangleup = \frac{\partial^{2}Q}{\partial \beta_{0}^{2}} \cdot \frac{\partial^{2}Q}{\partial \beta_{1}^{2}} - (\frac{\partial^{2}Q}{\partial \beta_{1} \partial \beta_{0}})^{2} = 
+		4n^{2}\overline{x^{2}} - 4n^2(\overline{x})^{2} = \\
+		= 4n^{2}\left[\overline{x^{2}} - (\overline{x})^{2}\right] = 4n^{2}\left[ \frac{1}{n}\sum{}_{}{(x_{i} - \overline{x})}\right] = 4n^{2}s_{x}^{2} > 0.
+		\label{det_sys}
+	\end{multline}
+	
+	Этот результат вместе с условием $\frac{\partial^{2}Q}{\partial \beta_{0}^{2}} = 2n > 0$ означает, что в стационарной точке функция Q имеет минимум \cite[c.~508-511]{max}.
+	
+	
+	
+	
+	
+	
+	
+	
+	\subsection{Робастные оценки коэффициентов линейной регрессии}
+	Робастность оценок коэффициентов линейной регрессии (т.е. их устойчивость по отношению к наличию в данных редких, но больших по величине выбросов) может быть обеспечена различными способами. Одним из них является использование метода наименьших модулей вместо метода наименьших квадратов:
+	
+	\begin{equation}
+		\sum_{i=1}^{n}{|y_{i} - \beta_{0} - \beta_{1}x_{i}|}\rightarrow \min_{\beta_{0}, \beta_{1}}
+		\label{min_abs}
+	\end{equation}
+	Напомним, что использование метода наименьших модулей в задаче оценивания параметра сдвига распределений приводит к оценке в виде выборочной медианы, обладающей робастными свойствами. В отличие от этого случая и от задач метода наименьших квадратов, на практике задача (\ref{min_abs}) решается численно. Соответствующие процедуры представлены в некоторых современных пакетах программ по статистическому анализу.
+	\newline \newline
+	Здесь мы рассмотрим простейшую в вычистлительном отношении робастную альтернативу оценкам коэффициентов линейной регрессии по МНК. Для этого сначала запишем выражения для оценок (\ref{beta_1_new}) и (\ref{beta_0_new}) в другом виде:
+	 
+	\begin{equation}
+		\widehat{\beta_1} = \frac{\overline{xy} - \overline{x} \cdot \overline{y}}{\overline{x^2} - (\overline{x})^{2}} = \frac{k_{xy}}{s_x^2} = \frac{k_{xy}}{s_x s_y} \cdot \frac{s_{y}}{s_x} = r_{xy}\frac{s_y}{s_x},\hspace{10mm}
+		\widehat{\beta_{0}} = \overline{y} - \overline{x}\widehat{\beta_1}
+		\label{new_coef_abs}
+	\end{equation}
+	
+	В формулах (\ref{new_coef_abs}) заменим выборочные средние $\bar{x}$ и $\bar{y}$ соответственно на робастные выборочные медианы $med x$ и $med y$, среднеквадратические отклонения $s_{x}$ и $s_{y}$ на робастные нормированные интерквартильные широты $q^{*}_{x}$ и $q^{*}_{y}$, выборочный коэффициент корреляции $r_{xy}$ — на знаковый коэффициент корреляции $r_{Q}$: 
+	
+	\begin{equation}
+		\widehat{\beta}_{1R} = r_{Q}\frac{q^{*}_{y}}{q^{*}_{x}},
+		\label{b_1R}
+	\end{equation}
+	
+	\begin{equation}
+		\widehat{\beta}_{0R} = med y - \widehat{\beta}_{1R} med x,
+		\label{b_0R}
+	\end{equation}
+	
+	\begin{equation}
+		r_{Q} = \frac{1}{n}\sum_{i=1}^{n}{sgn(x_{i} - med x)sgn(y_{i} - med y)},
+		\label{r_Q}
+	\end{equation}
+	$$
+		q^{*}_{y} = \frac{y_{(j)} -y_{(l)}}{k_{q}(n)}, 
+		q^{*}_{x} = \frac{x_{(j)} - x_{(l)}}{k_{q}(n)}, 
+	$$
+	$$
+		\begin{cases}
+			& [\frac{n}{4}] + 1 \text{ при } \frac{n}{4} \text{ дробном, } \\
+			& \frac{n}{4} \text{ при } \frac{n}{4} \text{ целом. }
+		\end{cases}
+	$$
+	$$
+		j = n - l + 1
+	$$
+	$$
+		sgn(z) = \begin{cases}
+				   	 & 1 \text{ при } z > 0 \\ 
+					 & 0 \text{ при } z = 0 \\
+					 & -1 \text{ при } z < 0
+				 \end{cases}\\
+		\label{q*}        
+	$$
+	
+	Уравнение регрессии здесь имеет вид 
+	
+	\begin{equation}
+		y = \hat{\beta_{0}}_{R} +  \hat{\beta_{1}}_{R}x
+	\label{y}
+	\end{equation}
+	
+	Статистики выборочной медианы и интерквартильной широты обладают робастными свойствами в силу того, что основаны на центральных порядковых статистиках, малочувствительных к большим по величине выбросам в данных. Статистика выборочного знакового коэффициента корреляции робастна, так как знаковая функция $sgn (z)$ чувствительна не к величине аргумента, а только к его знаку. Отсюда оценка прямой регрессии (\ref{y}) обладает очевидными робастными свойствами устойчивости к выбросам по координате $y$, но она довольно груба \cite[c.~518-519]{max}.
+		
+		
+\end{document}
