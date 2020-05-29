@@ -1,0 +1,145 @@
+\documentclass[../body.tex]{subfiles}
+\begin{document}
+\subsection{Доверительные интервалы для параметров нормального распределения}
+\subsubsection{Доверительный интервал для математического ожидания нормального распределения}
+Дана выборка ($x_{1},x_{2}, ... ,x_{n}$) объёма $n$ из нормальной генеральной совокупности. На её основе строим выборочное среднее $\bar{x}$ и выборочное среднее квадратическое отклонение $s$. Параметры $m$ и $\sigma$ нормального распределения неизвестны.
+\newline
+Доказано, что случайная величина
+\begin{equation}
+	T = \sqrt{n - 1}\cdot \frac{\bar{x} - m}{s},
+	\label{T}
+\end{equation}
+называемая статистикой Стьюдента, распределена по закону Стьюдента с $n-1$ степенями свободы. Пусть $f_{T}(x)$ — плотность вероятности распределения случайной величины (\ref{T}). Тогда 
+\begin{multline}
+	P\left(-x < \sqrt{n - 1}\cdot\frac{\bar{x} - m}{s} < x \right) = 
+	P\left(-x < \sqrt{n - 1}\cdot\frac{m - \bar{x}}{s} < x \right) = \\\
+	= \int_{-x}^{x}{f_{T}(t)dt} = 2 \int_{0}^{x}{f_{T}(t)dt} = 
+	2\left(  \int_{-\infty}^{x}{f_{T}(t)dt} - \frac{1}{2} \right) = 2F_{T}(x) - 1
+	\label{P_f_t}
+\end{multline}
+Здесь $F_{T}(x)$ — функция распределения Стьюдента с $n-1$ степенями свободы.
+\newline
+Полагаем $2F_{T}(x)-1 = 1-\alpha$, где $\alpha$ — выбранный уровень значимости. Тогда $F_{T}(x) = 1-\alpha/2$. Пусть $t_{1-\alpha/2}(n−1)$ — квантиль распределения Стьюдента с $n-1$ степенями свободы и порядка $1-\alpha/2$. Из предыдущих равенств мы получаем 
+\begin{equation}
+	\begin{split}
+		P\left(\bar{x} - \frac{sx}{\sqrt{n-1}} < m <  \bar{x} + \frac{sx}{\sqrt{n-1}}\right) = 2F_{T}(x) - 1 = 1 - \alpha,  \\
+		P\left(\bar{x} - \frac{st_{1-\alpha/2}(n−1)}{\sqrt{n-1}} < m <  \bar{x} + \frac{st_{1-\alpha/2}(n−1)}{\sqrt{n-1}}\right)= 1 - \alpha.
+		\label{P_m}
+	\end{split}
+\end{equation}
+Выражение (\ref{P_m}) и даёт доверительный интервал для $m$ с доверительной вероятностью $\gamma = 1-\alpha$ \cite[c.~457-458]{max}.
+
+\subsubsection{Доверительный интервал для среднего квадратического отклонения нормального распределения}
+Дана выборка ($x_{1},x_{2}, ... ,x_{n}$) объёма $n$ из нормальной генеральной совокупности. На её основе строим выборочную дисперсию $s^{2}$. Параметры $m$ и $\sigma$ нормального распределения неизвестны.\\ Доказано, что случайная величина $ns^{2}/\sigma^{2}$ распределена по закону $\chi^{2}$ с $n-1$ степенями свободы.
+\newline
+Задаёмся уровнем значимости $\alpha$ и находим квантили $\chi^{2}_{\alpha/2}(n-1)$ и $\chi^{2}_{1-\alpha/2}(n-1)$.
+\newline
+Это значит, что 
+\begin{equation}
+	\begin{split}
+		P\left(\chi^{2}(n-1) < \chi^{2}_{\alpha/2}(n-1)\right) = \alpha/2, \\
+		P\left(\chi^{2}(n-1) < \chi^{2}_{1-\alpha/2}(n-1)\right) = 1-\alpha/2.
+		\label{P_chi_2x2} 
+	\end{split}
+\end{equation}
+Тогда
+\begin{multline}
+P\left(\chi^{2}_{\alpha/2}(n-1) < \chi^{2}(n-1) < \chi^{2}_{1-\alpha/2}(n-1)\right) = \\\
+P\left(\chi^{2}(n-1) < \chi^{2}_{1-\alpha/2}(n-1)\right) -P\left(\chi^{2}(n-1) < \chi^{2}_{\alpha/2}(n-1)\right) = \\\ = 1 - \alpha/2 -\alpha/2 = 1 - \alpha.
+\label{P_chi_2}
+\end{multline}
+Отсюда
+\begin{multline}
+	P\left(\chi^{2}_{\alpha/2}(n-1) < \frac{ns^{2}}{\sigma^{2}} < \chi^{2}_{1-\alpha/2}(n-1)\right) =
+	P\left(\frac{1}{\chi^{2}_{1-\alpha/2}(n-1)} < \frac{\sigma^{2}}{ns^{2}} < \frac{1}{\chi^{2}_{\alpha/2}(n-1)} \right) = \\\ =
+	P\left(\frac{s\sqrt{n}}{\sqrt{\chi^{2}_{1-\alpha/2}(n-1)}} < \sigma <  \frac{s\sqrt{n}}{\sqrt{\chi^{2}_{\alpha/2}(n-1)}}\right) = 1- \alpha.
+	\label{interv}
+\end{multline}
+Окончательно
+\begin{equation}
+	P\left(\frac{s\sqrt{n}}{\sqrt{\chi^{2}_{1-\alpha/2}(n-1)}} < \sigma <  \frac{s\sqrt{n}}{\sqrt{\chi^{2}_{\alpha/2}(n-1)}}\right) = 1- \alpha.
+	\label{fin_interval}
+\end{equation}
+Выражение (\ref{fin_interval}) и даёт доверительный интервал для $\sigma$ с доверительной вероятностью (параметром надёжности) $\gamma = 1 - \alpha$ \cite[c.~458-459]{max}.
+
+\subsection{Доверительные интервалы для математического ожидания и среднего квадратического отклонения произвольного распределения при большом объёме выборки. Асимптотический подход}
+При большом объёме выборки для построения доверительных интервалов может быть использован асимптотический метод на основе центральной предельной теоремы.
+\subsubsection{Доверительный интервал для математического ожидания произвольной генеральной совокупности при большом объёме выборки}
+Выборочное среднее $\bar{x} = \frac{1}{n}\sum_{i = 1}^{n}{x_{i}}$ при большом объёме выборки является суммой большого числа взаимно независимых одинаково распределённых случайных величин. Предполагаем, что исследуемое генеральное распределение имеет конечные математическое ожидание $m$ и дисперсию $\sigma^{2}$.\\ Тогда в силу центральной предельной теоремы (ЦПТ) центрированная и нормированная случайная величина $(\bar{x} - M\bar{x}) / \sqrt{D\bar{x}} = \sqrt{n}·(\bar{x}-m)/\sigma$ распределена приблизительно нормально с параметрами $0$ и $1$.\\ Пусть функция Лапласа -- 
+\begin{equation}
+	\Phi(x) = \frac{1}{2\pi}\int_{-\infty}^{x}{e^{-t^{2}/2}dt}.
+	\label{f_lapl}
+\end{equation} Тогда
+\begin{multline}
+	P\left(-x < \sqrt{n}\frac{\bar{x} - m}{\sigma} < x \right) = 
+	P\left(-x < \sqrt{n}\frac{m - \bar{x}}{\sigma} < x \right) \approx \\\
+	\approx \Phi(x) - \Phi(-x)=\Phi(x) - [1 - \Phi(x)] = 2\Phi(x) - 1.
+	\label{P_PHI}
+\end{multline}
+Отсюда
+\begin{equation}
+	P\left(\bar{x} - \frac{\sigma x}{\sqrt{n}} < m < \bar{x} - \frac{\sigma x}{\sqrt{n}} \right) \approx 2\Phi(x) - 1.
+	\label{P_fin_PHI}
+\end{equation}
+Полагаем $2\Phi(x) - 1 = \gamma = 1 - \alpha$; тогда $\Phi(x) = 1 - \alpha/2$. Пусть $u_{1-\alpha/2}$ — квантиль нормального распределения $N(0,1)$ порядка $1-\alpha/2$. Заменяя в равенстве (\ref{P_fin_PHI}) $\sigma$ на $s$, запишем его в виде
+\begin{equation}
+	P\left(\bar{x} - \frac{su_{1-\alpha/2}}{\sqrt{n}} < m < \bar{x} - \frac{su_{1-\alpha/2}}{\sqrt{n}} \right) \approx \gamma.
+	\label{P_fin_u}
+\end{equation}
+Выражение (\ref{P_fin_u}) и даёт доверительный интервал для $m$ с доверительной вероятностью $\gamma = 1-\alpha$ \cite[c.~460]{max}.
+
+\subsubsection{Доверительный интервал для среднего квадратического отклонения произвольной генеральной совокупности при большом объёме выборки}
+Выборочная дисперсия $s^{2} = \sum_{i = 1}^{n}{\frac{(x_{i} - \bar{x})^{2}}{n}}$ при большом объёме выборки является суммой большого числа практически взаимно независимых случайных величин (имеется одна связь $\sum_{i=1}^{n}{x_{i}} = n\bar{x}$, которой при большом $n$ можно пренебречь). Предполагаем, что исследуемая генеральная совокупность имеет конечные первые четыре момента.
+\newline
+В силу центральной предельной теоремы центрированная и нормированная случайная величина $(s^{2}-Ms^{2})/\sqrt{Ds^{2}}$ при большом объёме выборки $n$ распределена приблизительно нормально с параметрами $0$ и $1$. Пусть $\Phi(x)$ — функция Лапласа (\ref{f_lapl}). Тогда
+\begin{equation}
+	P\left(-x < \frac{s^{2}-Ms^{2}}{\sqrt{Ds^{2}}} < x\right)
+	\approx \Phi(x) - \Phi(-x)=\Phi(x) - [1 - \Phi(x)] = 2\Phi(x) - 1
+	\label{P_as_sigma}
+\end{equation}
+Положим $2\Phi(x)-1 = \gamma = 1-\alpha$. Тогда $\Phi(x) = 1-\alpha/2$. Пусть $u_{1-\alpha/2}$ — корень этого уравнения — квантиль нормального распределения $N(0,1)$ порядка $1-\alpha/2$.\\ Известно, что $Ms^{2} = \sigma^{2} -\frac{\sigma^{2}}{n} \approx \sigma^{2} \text{ и } Ds^{2} = \frac{\mu_{4} -\mu_{2}^{2}}{n} + o(\frac{1}{n}) \approx \frac{\mu_{4} -\mu_{2}^{2}}{n}$ . Здесь $\mu_{k}$ — центральный момент $k$-го порядка генерального распределения; $\mu_{2} = \sigma^{2}; \mu_{4} = M[︀(x-Mx)^{4}]$︀; $o(\frac{1}{n})$︂— бесконечно малая высшего порядка, чем $1/n$, при $n\rightarrow \infty$. \\Итак, $$Ds^{2} \approx \frac{\mu_{4} -\mu_{2}^{2}}{n}.$$\\ Отсюда
+\begin{equation}
+	Ds^{2} \approx \frac{\sigma^{4}}{n}(\frac{\mu_{4}}{\sigma^{4}} - 1) = 
+	\frac{\sigma^{4}}{n}((\frac{\mu_{4}}{\sigma^{4}} - 3) + 2) = \frac{\sigma^{4}}{n}(E + 2) \approx \frac{\sigma^{4}}{n}(e + 2),
+	\label{Ds_2}
+\end{equation}
+где $E = \frac{\mu_{4}}{\sigma^{4}} - 3$ — эксцесс генерального распределения, $e = \frac{m_{4}}{s^{4}} - 3$ — выборочный эксцесс; $m_{4} = \frac{1}{n}\sum_{i =1}^{n}{(x_{i} - \bar{x})^{4}}$  — четвёртый выборочный центральный момент.\\ Далее,
+\begin{equation}
+	\sqrt{Ds^{2}} \approx \frac{\sigma^{2}}{\sqrt{n}}\sqrt{e + 2}
+	\label{sqrt_Ds}
+\end{equation}
+Преобразуем неравенства, стоящие под знаком вероятности в формуле
+\newline
+$P\left(-x < \frac{s^{2}-Ms^{2}}{\sqrt{Ds^{2}}} < x\right) = \gamma$:
+\begin{equation}
+	\begin{split}
+		-\sigma^{2}U < s^{2} -\sigma^{2} < \sigma^{2}U; \\
+		\sigma^{2}(1-U) < s^{2} < \sigma^{2}(1 + U); \\
+		1/[\sigma^{2}(1 + U)] < 1/s^{2} < 1/[\sigma^{2}(1-U)];\\
+		s^{2}/(1 + U) < \sigma^{2} < s^{2}/(1-U);\\
+		s(1 + U)^{-1/2} < \sigma < s(1-U)^{-1/2},
+		\label{multi_ineq}
+	\end{split}
+\end{equation}
+где $U = u_{1-\alpha/2}︀\sqrt{(e + 2)/n}$ или
+\newline
+$s(1 +  u_{1-\alpha/2}︀\sqrt{(e + 2)/n})^{-1/2} <\sigma < s(1-u_{1-\alpha/2}︀\sqrt{(e + 2)/n})^{-1/2}$.
+\newline
+Разлагая функции в биномиальный ряд и оставляя первые два члена, получим
+\begin{equation}
+	s(1-0.5U) < \sigma < s(1 + 0.5U)
+	\label{s_U}
+\end{equation}
+или
+\begin{equation}
+	s(1-0.5u_{1-\alpha/2}︀\sqrt{(e + 2)/n}) < \sigma < s(1 + 0.5 u_{1-\alpha/2}︀\sqrt{(e + 2)/n}).
+	\label{s_u}
+\end{equation}
+Формулы (\ref{multi_ineq}) или (\ref{s_u}) дают доверительный интервал для $\sigma$ с доверительной вероятностью $\gamma = 1-\alpha$ \cite[c.~461-462]{max}. 
+\newline
+\textbf{\textit{Замечание.}} Вычисления по формуле (\ref{multi_ineq}) дают более надёжный результат, так как в ней меньше грубых приближений.
+
+
+		
+		
+\end{document}
